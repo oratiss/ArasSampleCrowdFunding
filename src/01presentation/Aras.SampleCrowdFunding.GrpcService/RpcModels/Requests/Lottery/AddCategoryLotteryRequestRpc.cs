@@ -1,4 +1,6 @@
-﻿using Atisaz.Grpc.Utilities;
+﻿
+
+using Aras.SampleCrowdFunding.UtilityService.RpcResponseStates;
 
 #pragma warning disable IDE0130
 namespace Aras.SampleCrowdFundingMicroservice.SampleCrowdFunding.GrpcService

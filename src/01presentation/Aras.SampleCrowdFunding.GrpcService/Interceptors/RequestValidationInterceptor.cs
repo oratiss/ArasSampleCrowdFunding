@@ -4,6 +4,7 @@ using Atisaz.CustomerClubMicroservice.GrpcService.Interceptors.InterceptorExtens
 using Atisaz.Grpc.Utilities;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
+using IRequestRpc = Aras.SampleCrowdFunding.UtilityService.RpcResponseStates.IRequestRpc;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 namespace Atisaz.CustomerClubMicroservice.GrpcService.Interceptors
 {

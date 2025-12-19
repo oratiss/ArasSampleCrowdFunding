@@ -1,34 +1,47 @@
- syntax = "proto3";
+syntax = "proto3";
 
 import "google/protobuf/wrappers.proto";
 import "google/protobuf/timestamp.proto";
 import "Protos/Common/common.proto";
+import "google/protobuf/descriptor.proto";
+
 option csharp_namespace = "Aras.SampleCrowdFundingMicroservice.SampleCrowdFunding.GrpcService";
 
 package SampleCrowdFundingServiceRpc;
 
-
 service SampleCrowdFundingServiceRpc {
-
-	rpc AddCategoryRpc(AddCategoryRequestRpc) returns (AddCategoryResponseRpc);
-	rpc GetCategoriesRpc(GetCategoriesRequestRpc) returns (GetCategoriesResponseRpc);
-	rpc GetCategoryByIdRpc(GetCategoryByIdRequestRpc) returns(GetCategoryByIdResponseRpc);
+	rpc AddCategoryRpc(AddCategoryRequestRpc) returns (AddCategoryResponseRpc) 
+	{
+		option (http) = {
+			post: "/v1/categories"
+			body: "*"
+		};
+	};
+	
+	rpc GetCategoriesRpc(GetCategoriesRequestRpc) returns (GetCategoriesResponseRpc) 
+	{
+		option (http) = {
+			get: "/v1/categories"
+		};
+	};
+	
+	rpc GetCategoryByIdRpc(GetCategoryByIdRequestRpc) returns(GetCategoryByIdResponseRpc) 
+	{
+		option (http) = {
+			get: "/v1/categories/{category_id}"
+		};
+	};
 }
 
 message DecimalValue {
-
     // Whole units part of the amount
     int64 units = 1;
-
     // Nano units of the amount (10^-9)
     // Must be same sign as units
     sfixed32 nanos = 2;
 }
 
-
-
 //========= Category ====================
-
 message AddCategoryRequestRpc{
 	string name = 1;
 	google.protobuf.Int64Value parentId = 2;
@@ -40,6 +53,7 @@ message AddCategoryResponseRpc{
 	int64 responseStatus = 1;
 	repeated string errors = 2;
 	CategoryResultRpc result = 3;
+	//ResponseMetaDataRpc metaData = 4;
 }
 
 message CategoryResultRpc{
@@ -62,14 +76,16 @@ message GetCategoriesRequestRpc{
 }
 
 message GetCategoryByIdRequestRpc{
-	int64 categoryId = 1;
+	int64 category_id = 1;  // Changed from categoryId to category_id for URL binding
 }
+
 message GetCategoriesResponseRpc{
 	int64 responseStatus = 1;
 	repeated string errors = 2;
 	repeated CategoryResultRpc result = 3;
 	Common.ResponseMetaDataRpc metaData = 4;
 }
+
 message GetCategoryByIdResponseRpc
 {
 	int64 responseStatus = 1;
@@ -77,3 +93,36 @@ message GetCategoryByIdResponseRpc
 	CategoryResultRpc result = 3;
 }
 //========= End of Category ====================
+
+
+message Http {
+  repeated HttpRule rules = 1;
+  bool fully_decode_reserved_expansion = 2;
+}
+
+message HttpRule {
+  string selector = 1;
+
+  oneof pattern {
+    string get = 2;
+    string put = 3;
+    string post = 4;
+    string delete = 5;
+    string patch = 6;
+    CustomHttpPattern custom = 8;
+  }
+
+  string body = 7;
+  string response_body = 12;
+  repeated HttpRule additional_bindings = 11;
+}
+
+message CustomHttpPattern {
+  string kind = 1;
+  string path = 2;
+}
+
+extend google.protobuf.MethodOptions {
+  // See `HttpRule`.
+  HttpRule http = 72295728;
+}
