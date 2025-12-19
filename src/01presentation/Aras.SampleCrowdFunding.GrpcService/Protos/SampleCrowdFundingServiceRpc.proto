@@ -1,0 +1,79 @@
+ syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+import "Protos/Common/common.proto";
+option csharp_namespace = "Aras.SampleCrowdFundingMicroservice.SampleCrowdFunding.GrpcService";
+
+package SampleCrowdFundingServiceRpc;
+
+
+service SampleCrowdFundingServiceRpc {
+
+	rpc AddCategoryRpc(AddCategoryRequestRpc) returns (AddCategoryResponseRpc);
+	rpc GetCategoriesRpc(GetCategoriesRequestRpc) returns (GetCategoriesResponseRpc);
+	rpc GetCategoryByIdRpc(GetCategoryByIdRequestRpc) returns(GetCategoryByIdResponseRpc);
+}
+
+message DecimalValue {
+
+    // Whole units part of the amount
+    int64 units = 1;
+
+    // Nano units of the amount (10^-9)
+    // Must be same sign as units
+    sfixed32 nanos = 2;
+}
+
+
+
+//========= Category ====================
+
+message AddCategoryRequestRpc{
+	string name = 1;
+	google.protobuf.Int64Value parentId = 2;
+	google.protobuf.Int64Value modifierUserId = 3;
+	int64 creatorUserId = 4;
+}
+
+message AddCategoryResponseRpc{
+	int64 responseStatus = 1;
+	repeated string errors = 2;
+	CategoryResultRpc result = 3;
+}
+
+message CategoryResultRpc{
+	int64 id = 1;
+	google.protobuf.StringValue name = 2;
+	google.protobuf.Int64Value parentId = 3;
+	google.protobuf.Int64Value modifierUserId = 4;
+	int64 creatorUserId = 5;
+	//repeated AttributeResultRpc attributes = 6;
+	bool isDefault = 7;
+	google.protobuf.Int64Value prizeId = 8;
+	google.protobuf.Int64Value categoryId = 9;
+}
+
+message GetCategoriesRequestRpc{
+    int32 pageSize = 1;
+    int32 pageIndex = 2;
+    google.protobuf.StringValue orderBy = 3;
+    google.protobuf.Int32Value sortOrder = 4;
+}
+
+message GetCategoryByIdRequestRpc{
+	int64 categoryId = 1;
+}
+message GetCategoriesResponseRpc{
+	int64 responseStatus = 1;
+	repeated string errors = 2;
+	repeated CategoryResultRpc result = 3;
+	Common.ResponseMetaDataRpc metaData = 4;
+}
+message GetCategoryByIdResponseRpc
+{
+	int64 responseStatus = 1;
+	repeated string errors = 2;
+	CategoryResultRpc result = 3;
+}
+//========= End of Category ====================

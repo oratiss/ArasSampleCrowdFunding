@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Atisaz.Core.Infra" Version="3.0.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\02core\Aras.SampleCrowdFunding.Application\Aras.SampleCrowdFunding.Application.csproj" />
+    <ProjectReference Include="..\..\02core\Aras.SampleCrowdFunding.DomainContract\Aras.SampleCrowdFunding.DomainContract.csproj" />
+  </ItemGroup>
+
+</Project>

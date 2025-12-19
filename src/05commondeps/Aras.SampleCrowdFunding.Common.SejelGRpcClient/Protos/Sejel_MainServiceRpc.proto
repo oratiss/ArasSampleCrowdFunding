@@ -1,0 +1,338 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+import "Protos/Common/common.proto";
+option csharp_namespace = "Atisaz.SejelMicroService.Atisaz.SejelMicroService.GrpcService";
+
+package Sejel_MainServiceRpc;
+
+service Sejel_MainServiceRpc {
+  rpc  RegisterOrLoginRpc(RegisterOrLoginRequestRpc) returns (RegisterOrLoginResponseRpc);
+  rpc  AddUserRpc(AddUserRequestRpc) returns (AddUserResponseRpc);
+  rpc  VerifyMobileOtpRpc(VerifyMobileOtpRequestRpc) returns (VerifyMobileOtpResponseRpc);
+  rpc  CompleteSignUpRpc(CompleteSignUpRequestRpc) returns (CompleteSignUpResponseRpc);
+  rpc  GetUserByIdRpc(GetUserByIdRequestRpc) returns (GetUserByIdResponseRpc);
+  rpc  GetAllSejelUsersRpc(GetAllSejelUsersRequestRpc) returns (GetAllSejelUsersResponseRpc);
+  rpc  GetUserByRayanCustomerIdRpc(GetUserByRayanCustomerIdRequestRpc) returns (GetUserByRayanCustomerIdResponseRpc);
+  rpc  UpdateUserIdentityIdRpc(UpdateUserIdentityIdRequestRpc) returns (UpdateUserIdentityIdResponseRpc);
+  rpc  UpdateUserRayanCustomerIdRpc(UpdateUserRayanCustomerIdRequestRpc) returns (UpdateUserRayanCustomerIdResponseRpc);
+  rpc  AddJetUserRpc(AddJetUserRequestRpc) returns (AddJetUserResponseRpc);
+  rpc  GetAllNationalCodesRpc(GetAllNationalCodesRequestRpc) returns (GetAllNationalCodesResponseRpc);
+  rpc  GetUserByNationalCodeRpc(GetUserByNationalCodeRequestRpc) returns (GetUserByNationalResponseRpc);
+  rpc  GetAdminUserByMobileNumberRpc(GetAdminUserByMobileNumberRequestRpc) returns (GetAdminUserByMobileNumberResponseRpc);
+  rpc  GetUsersInfoByIdsRpc(UserIdsRequestRpc) returns (UsersInfoResponseRpc);
+  rpc  GetUserInfoByIdentityUserIdRpc(GetUserByIdentityUserIdRequestRpc) returns (GetUserByIdentityUserIdResponseRpc);
+}
+
+//====================== User ======================
+message AddUserRequestRpc{
+  string firstName = 1;
+  string lastName = 2;
+  string nationalCode = 3;
+  string mobileNumber = 4;
+  google.protobuf.StringValue email = 5;
+  int64 creatorUserId = 6;
+  google.protobuf.Int64Value modifierUserId = 7;
+}
+message AddUserResponseRpc{
+  int32 responseStatus = 1;
+  repeated string errors = 2;
+  AddUserResultRpc result = 3;
+}
+message AddUserResultRpc{
+  int64 id = 1;
+  string firstName = 2;
+  string lastName = 3;
+  string nationalCode = 4;
+  string mobileNumber = 5;
+  google.protobuf.StringValue email = 6;
+  int32 state = 7;
+  google.protobuf.Int64Value IdentityUserId = 8;
+  repeated MobileNumberResultRpc mobileNumbers = 9;
+  int64 creatorUserId = 10;
+  google.protobuf.Timestamp createDate = 11;
+  google.protobuf.Int64Value modifierUserId = 12;
+  google.protobuf.Timestamp ModifiedDate = 13;
+}
+
+message RegisterOrLoginRequestRpc{
+  string mobileNumber = 1;
+  int64 creatorUserId = 2;
+  google.protobuf.Int64Value modifierUserId = 3;
+}
+message RegisterOrLoginResponseRpc{
+  int32 responseStatus = 1;
+  repeated string errors = 2;
+  repeated RegisterOrLoginResultRpc result = 3;
+}
+message RegisterOrLoginResultRpc{
+  int64 id = 1;
+  int32 state = 2;
+  string mobileNumber = 3;
+  google.protobuf.StringValue nationalCode = 4;
+  google.protobuf.StringValue firstName = 5;
+  repeated MobileNumberResultRpc mobileNumbers = 6;
+  int64 creatorUserId = 7;
+  google.protobuf.Timestamp createDate = 8;
+  google.protobuf.Int64Value modifierUserId = 9;
+  google.protobuf.Timestamp ModifiedDate = 10;
+}
+
+message VerifyMobileOtpRequestRpc{
+  string mobileNumber = 1;
+  int64 creatorUserId = 2;
+  google.protobuf.Int64Value id = 3;
+  google.protobuf.Int64Value modifierUserId = 4;
+}
+message VerifyMobileOtpResponseRpc{
+  int32 responseStatus = 1;
+  repeated string errors = 2;
+  repeated VerifyMobileOtpResultRpc result = 3;
+}
+message VerifyMobileOtpResultRpc{
+  int64 id = 1;
+  int32 state = 2;
+  string mobileNumber = 3;
+  google.protobuf.StringValue nationalCode = 4;
+  google.protobuf.StringValue firstName = 5;
+  repeated MobileNumberResultRpc mobileNumbers = 6;
+  int64 creatorUserId = 7;
+  bool isOtpRequiredToBeSent = 8;
+  google.protobuf.Timestamp createDate = 9;
+  google.protobuf.Int64Value modifierUserId = 10;
+  google.protobuf.Timestamp modifiedDate = 11;
+}
+
+message CompleteSignUpRequestRpc{
+  int64 id = 1;
+  string firstName = 2;
+  string lastName = 3;
+  string nationalCode = 4;
+  google.protobuf.StringValue email = 5;
+  int64 creatorUserId = 6;
+  google.protobuf.Int64Value modifierUserId = 7;
+}
+message CompleteSignUpResponseRpc{
+  int32 responseStatus = 1;
+  repeated string errors = 2;
+  CompleteSignUpResultRpc result = 3;
+}
+message CompleteSignUpResultRpc{
+  int64 id = 1;
+  int32 state = 7;
+}
+
+message UpdateUserIdentityIdRequestRpc{
+  int64 id = 1;
+  int64 identityUserId = 2;
+  int64 creatorUserId = 3;
+  google.protobuf.Int64Value modifierUserId = 4;
+}
+message UpdateUserIdentityIdResponseRpc{
+  int32 responseStatus = 1;
+  repeated string errors = 2;
+  UpdateUserIdentityIdResultRpc result = 3;
+}
+message UpdateUserIdentityIdResultRpc{
+  int64 Id = 1;
+  int32 state = 8;
+}
+
+message UpdateUserRayanCustomerIdRequestRpc{
+	google.protobuf.StringValue mobileNumber = 1;
+	google.protobuf.StringValue nationalCode = 2;
+	google.protobuf.Int64Value rayanCustomerId = 3;
+	google.protobuf.Int64Value modifierUserId = 4;
+}
+message UpdateUserRayanCustomerIdResponseRpc{
+  int32 responseStatus = 1;
+  repeated string errors = 2;
+  GetUserByIdResultRpc result = 3;
+}
+
+message GetUserByIdRequestRpc{
+  int64 id = 1;
+}
+
+message UserIdsRequestRpc{
+  repeated int64 id = 1;
+}
+
+message GetUserByIdResponseRpc{
+  int32 responseStatus = 1;
+  repeated string errors = 2;
+  GetUserByIdResultRpc result = 3;
+}
+
+message UsersInfoResponseRpc{
+  int32 responseStatus = 1;
+  repeated string errors = 2;
+  repeated GetUserByIdResultRpc result = 3;
+  Common.ResponseMetaDataRpc metaData = 4;
+}
+
+
+message GetUserByIdResultRpc{
+  int64 Id = 1;
+  google.protobuf.StringValue firstName = 2;
+  google.protobuf.StringValue lastName = 3;
+  google.protobuf.StringValue mobileNumber = 4;
+  google.protobuf.StringValue nationalCode = 5;
+  google.protobuf.StringValue email = 6;
+  google.protobuf.Int64Value identityUserId = 7;
+  google.protobuf.Int64Value jetUserId = 8;
+  google.protobuf.Int64Value rayanCustomerId = 9;
+  google.protobuf.Timestamp birthDate = 10;
+  int32 state = 11;
+  int64 creatorUserId = 12;
+  google.protobuf.Timestamp createDate = 13;
+  google.protobuf.Int64Value modifierUserId = 14;
+  google.protobuf.Timestamp modifiedDate = 15;
+}
+
+message MobileNumberResultRpc{
+  int64 id = 1;
+  string mobileNumber = 2;
+  int64 userId = 3;
+  bool isVerified = 4;
+  google.protobuf.Timestamp verificationDate = 5;
+  int64 creatorUserId = 6;
+  google.protobuf.Timestamp createDate = 7;
+  google.protobuf.Int64Value modifierUserId = 8;
+  google.protobuf.Timestamp modifiedDate = 9;
+}
+
+message GetUserByRayanCustomerIdRequestRpc{
+  int64 rayanCustomerId = 1;
+}
+message GetUserByRayanCustomerIdResponseRpc{
+  int32 responseStatus = 1;
+  repeated string errors = 2;
+  GetUserByRayancustomerIdResultRpc result = 3;
+}
+message GetUserByRayancustomerIdResultRpc{
+  int64 Id = 1;
+  google.protobuf.StringValue firstName = 2;
+  google.protobuf.StringValue lastName = 3;
+  google.protobuf.StringValue mobileNumber = 4;
+  google.protobuf.StringValue nationalCode = 5;
+  google.protobuf.StringValue email = 6;
+  google.protobuf.Int64Value identityUserId = 7;
+  google.protobuf.Int64Value jetUserId = 8;
+  google.protobuf.Int64Value rayanCustomerId = 9;
+  google.protobuf.Timestamp birthDate = 10;
+  int32 state = 11;
+  int64 creatorUserId = 12;
+  google.protobuf.Timestamp createDate = 13;
+  google.protobuf.Int64Value modifierUserId = 14;
+  google.protobuf.Timestamp modifiedDate = 15;
+}
+
+message GetAllNationalCodesRequestRpc{
+}
+message GetAllNationalCodesResponseRpc{
+  int32 responseStatus = 1;
+  repeated string errors = 2;
+  GetAllNationalCodesResultRpc result = 3;
+  Common.ResponseMetaDataRpc metaData = 4;
+}
+message GetAllNationalCodesResultRpc{
+  repeated string nationalCodes = 1;
+}
+
+message GetUserByNationalCodeRequestRpc{
+  string nationalCode = 1;
+}
+message GetUserByNationalCodeResultRpc{
+  int64 Id = 1;
+  google.protobuf.StringValue firstName = 2;
+  google.protobuf.StringValue lastName = 3;
+  google.protobuf.StringValue mobileNumber = 4;
+  google.protobuf.StringValue nationalCode = 5;
+  google.protobuf.StringValue email = 6;
+  google.protobuf.Int64Value identityUserId = 7;
+  google.protobuf.Int64Value jetUserId = 8;
+  google.protobuf.Int64Value rayanCustomerId = 9;
+  int32 state = 10;
+  int64 creatorUserId = 11;
+  google.protobuf.Int64Value modifierUserId = 12;
+}
+message GetUserByNationalResponseRpc{
+  int32 responseStatus = 1;
+  repeated string errors = 2;
+  GetUserByNationalCodeResultRpc result = 3;
+}
+
+message GetAdminUserByMobileNumberRequestRpc{
+  string mobileNumber = 1;
+}
+message GetAdminUserByMobileNumberResponseRpc{
+  int32 responseStatus = 1;
+  repeated string errors = 2;
+  GetAdminUserByMobileNumberResultRpc result = 3;
+}
+message GetAdminUserByMobileNumberResultRpc{
+  int64 Id = 1;
+  google.protobuf.StringValue firstName = 2;
+  google.protobuf.StringValue lastName = 3;
+  google.protobuf.StringValue mobileNumber = 4;
+  google.protobuf.StringValue nationalCode = 5;
+  google.protobuf.StringValue email = 6;
+  google.protobuf.Int64Value identityUserId = 7;
+  google.protobuf.Int64Value jetUserId = 8;
+  google.protobuf.Int64Value rayanCustomerId = 9;
+  google.protobuf.Timestamp birthDate = 10;
+  int32 state = 11;
+  int64 creatorUserId = 12;
+  google.protobuf.Timestamp createDate = 13;
+  google.protobuf.Int64Value modifierUserId = 14;
+  google.protobuf.Timestamp modifiedDate = 15;
+}
+
+message AddJetUserRequestRpc{
+  int64 jetUserId = 1;
+  string firstName = 2;
+  string lastName = 3;
+  string nationalCode = 4;
+  string mobileNumber = 5;
+  google.protobuf.Int64Value rayanCustomerId = 6;
+  google.protobuf.Int64Value identityUserId = 7;
+  google.protobuf.Timestamp birthDate = 8;
+}
+message AddJetUserResponseRpc{
+  int32 responseStatus = 1;
+  repeated string errors = 2;
+  AddJetUserResultRpc result = 3;
+}
+message AddJetUserResultRpc{
+  int64 id = 1;
+  int32 state = 2;
+  string nationalCode = 3;
+}
+
+message GetUserByIdentityUserIdResponseRpc{
+  int32 responseStatus = 1;
+  repeated string errors = 2;
+  GetUserByIdResultRpc result = 3;
+}
+
+message GetUserByIdentityUserIdRequestRpc{
+  int64 identityUserId = 1;
+}
+
+message GetAllSejelUsersRequestRpc{
+	int32 pageSize = 1;
+	int32 pageIndex = 2;
+	google.protobuf.StringValue orderBy = 3;
+	google.protobuf.Int32Value sortOrder = 4;
+}
+message GetAllSejelUsersResponseRpc{
+  int32 responseStatus = 1;
+  repeated string errors = 2;
+  repeated GetUserByIdResultRpc result = 3;
+  Common.ResponseMetaDataRpc metaData = 4;
+}
+//====================== End Of User ======================
