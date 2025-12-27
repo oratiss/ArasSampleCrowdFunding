@@ -1,4 +1,3 @@
-using Aras.SampleCrowdFunding.ApplicationContract;
 using Aras.SampleCrowdFunding.GrpcService.ServiceProviders.LoggerProviders;
 using Aras.SampleCrowdFunding.GrpcService.Services;
 using Atisaz.CustomerClubMicroservice.GrpcService;
@@ -66,7 +65,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddApplicationCommandsAndQueries();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddMemoryCache();
-builder.ConfigureAndAddRayanServices(configuration);
+//builder.ConfigureAndAddRayanServices(configuration);
 
 // CORS Configuration
 builder.Services.AddCors(options =>

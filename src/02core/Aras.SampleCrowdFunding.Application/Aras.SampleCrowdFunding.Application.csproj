@@ -22,4 +22,9 @@
     <ProjectReference Include="..\..\02core\Aras.SampleCrowdFunding.ApplicationContract\Aras.SampleCrowdFunding.ApplicationContract.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Roles\CommandAndQueryResponses\" />
+    <Folder Include="Models\Roles\CommandsAndQueries\" />
+  </ItemGroup>
+
 </Project>

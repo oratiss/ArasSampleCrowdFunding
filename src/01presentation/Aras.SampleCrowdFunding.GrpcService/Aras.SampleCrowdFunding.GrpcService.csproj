@@ -43,7 +43,6 @@
 		<ProjectReference Include="..\..\03infrastructure\Aras.SampleCrowdFunding.Repository.Mongo\Aras.SampleCrowdFunding.Repository.Mongo.csproj" />
 		<ProjectReference Include="..\..\03infrastructure\Aras.SampleCrowdFunding.Repository.Mssql\Aras.SampleCrowdFunding.Repository.Mssql.csproj" />
 		<ProjectReference Include="..\..\04utility\Aras.SampleCrowdFunding.UtilityService\Aras.SampleCrowdFunding.UtilityService.csproj" />
-		<ProjectReference Include="..\..\05commondeps\Aras.SampleCrowdFunding.Common.SejelGRpcClient\Aras.SampleCrowdFunding.Common.SejelGRpcClient.csproj" />
 	</ItemGroup>
 
 
@@ -54,7 +53,6 @@
 
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="RpcModels\Responses\" />
 		<Folder Include="Validators\RequestValidators\" />
 	</ItemGroup>
 

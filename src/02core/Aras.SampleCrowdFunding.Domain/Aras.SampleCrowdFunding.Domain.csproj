@@ -11,4 +11,10 @@
     <ProjectReference Include="..\Aras.SampleCrowdFunding.SharedKernel\Aras.SampleCrowdFunding.SharedKernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Aggregates\CampaignDomainServices\" />
+    <Folder Include="Models\Aggregates\ContributionDomainServices\" />
+    <Folder Include="Models\Aggregates\PaymentDomainServices\" />
+  </ItemGroup>
+
 </Project>

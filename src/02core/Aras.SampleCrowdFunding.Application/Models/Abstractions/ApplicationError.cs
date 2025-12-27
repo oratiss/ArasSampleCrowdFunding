@@ -2,6 +2,12 @@
 
 public class ApplicationError
 {
-    public string Message { get; set; } = null!;
     public int Code { get; set; }
+    public string Message { get; set; } = null!;
+
+    public ApplicationError(int code, string message)
+    {
+        Code = code;
+        Message = message;
+    }
 }

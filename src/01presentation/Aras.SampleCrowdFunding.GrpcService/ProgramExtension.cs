@@ -1,16 +1,11 @@
-﻿using Aras.SampleCrowdFunding.Application.Handlers.Categories.CommandHandlers.Categories;
-using Aras.SampleCrowdFunding.Application.Handlers.Categories.QueryHandlers.Categories;
+﻿using Aras.SampleCrowdFunding.Application.Handlers.Users.CommandHandlers;
+using Aras.SampleCrowdFunding.Application.Handlers.Users.QueryHandlers;
 using Aras.SampleCrowdFunding.Application.Models.Abstractions;
-using Aras.SampleCrowdFunding.Application.Models.Categories.AddUsecases;
-using Aras.SampleCrowdFunding.Application.Models.Categories.DeleteUsecases;
-using Aras.SampleCrowdFunding.Application.Models.Categories.GetUsecases.Categories;
-using Aras.SampleCrowdFunding.Application.Models.Categories.UpdateUsecases;
-using Aras.SampleCrowdFunding.Application.Repositories.IReadableRepositories.Categories;
+using Aras.SampleCrowdFunding.Application.Models.Users.CommandAndQueryResponses;
+using Aras.SampleCrowdFunding.Application.Models.Users.CommandsAndQueries;
+using Aras.SampleCrowdFunding.Application.Repositories.IReadableRepositories.Users;
 using Aras.SampleCrowdFunding.Application.UnitOFWorks;
-using Aras.SampleCrowdFunding.ExternalDomainServiceProvider.ExternalServices;
-using Aras.SampleCrowdFunding.ExternalDomainServiceProvider.ExternalServices.Abstractions;
-using Aras.SampleCrowdFunding.ExternalDomainServiceProvider.ExternalServices.Configs;
-using Aras.SampleCrowdFunding.Repository.Mongo.Repositories.Prize;
+using Aras.SampleCrowdFunding.Repository.Mongo.Repositories.Users;
 using Aras.SampleCrowdFunding.Repository.Mssql.DataContexts;
 using Aras.SampleCrowdFunding.Repository.Mssql.UnitOfWorks;
 using Atisaz.Cache.Utilities.Configurations;
@@ -29,15 +24,15 @@ namespace Atisaz.CustomerClubMicroservice.GrpcService
         public static void AddSqlServer(this IServiceCollection services, ConfigurationManager configuration)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<CustomerClubDataContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<CrowdFundingDataContext>(options => options.UseSqlServer(connectionString));
             var serviceProvider = services.BuildServiceProvider();
-            var dataContext = serviceProvider!.GetService<CustomerClubDataContext>();
+            var dataContext = serviceProvider!.GetService<CrowdFundingDataContext>();
             services.AddSingleton<IEfDataContext>(dataContext!);
         }
 
         public static void AddUnitOfWorks(this IServiceCollection services)
         {
-            services.AddScoped<ICustomerClubUnitOfWork, CustomerClubUnitOfWork>();
+            services.AddScoped<ICrowdFundingUnitOfWork, CrowdFundingUnitOfWork>();
         }
 
         public static void AddRedisCache(this IServiceCollection services, IConfiguration configuration)
@@ -62,31 +57,28 @@ namespace Atisaz.CustomerClubMicroservice.GrpcService
             services.Configure<MongoConfiguration>(mongoSection);
             var mongoConfig = services.BuildServiceProvider().GetService<IOptions<MongoConfiguration>>();
 
-            var categoryCollectionName = mongoSection.GetValue<string>("CategoriesCollectionName");
-            services.AddSingleton<IReadableCategoryRepository>(new ReadableCategoryRepository(mongoConfig!, categoryCollectionName!));
+            var usersCollectionName = mongoSection.GetValue<string>("UsersCollectionName");
+            services.AddSingleton<IReadableUserRepository>(new ReadableUserRepository(mongoConfig!, usersCollectionName!));
 
         }
 
         public static void AddApplicationCommandsAndQueries(this IServiceCollection services)
         {
-            services.AddScoped(typeof(IRequestHandler<AddCategoryCommand, AddCategoryCommandResponse>), typeof(AddCategoryCommandHandler));
-            services.AddScoped(typeof(IRequestHandler<UpdateCategoryCommand, UpdateCategoryCommandResponse>), typeof(UpdateCategoryCommandHandler));
-            services.AddScoped(typeof(IRequestHandler<DeleteCategoryCommand, DeleteCategoryCommandResponse>), typeof(DeleteCategoryCommandHandler));
-            services.AddScoped(typeof(IRequestHandler<GetCategoriesQuery, QueryResponse<CategoriesQueryResponse?>>), typeof(GetCategoryQueryHandler));
-            services.AddScoped(typeof(IRequestHandler<GetCategoryByIdQuery, CategoryQueryResponse>), typeof(GetCategoryByIdQueryHandler));
+            services.AddScoped(typeof(IRequestHandler<AddUserCommand, CommandResponse<AddUserCommandResponse?>>), typeof(AddUserCommandHandler));
+            services.AddScoped(typeof(IRequestHandler<GetUserByIdQuery, GetUserByIdQueryResponse?>), typeof(GetUserByIdQueryHandler));
         }
 
 
 
-        public static void ConfigureAndAddRayanServices(this WebApplicationBuilder builder, IConfiguration configuration)
-        {
-            var rayanSection = configuration.GetSection("RayanConfig");
-            builder.Services.Configure<RayanConfig>(rayanSection);
-            builder.Services.AddHttpClient(rayanSection.GetValue<string>("HttpClientName")!, options =>
-            {
-                options.BaseAddress = new Uri(rayanSection.GetValue<string>("BaseUrl")!);
-            });
-            builder.Services.AddScoped<IRayanContractsService, RayanContractService>();
-        }
+        //public static void ConfigureAndAddRayanServices(this WebApplicationBuilder builder, IConfiguration configuration)
+        //{
+        //    var rayanSection = configuration.GetSection("RayanConfig");
+        //    builder.Services.Configure<RayanConfig>(rayanSection);
+        //    builder.Services.AddHttpClient(rayanSection.GetValue<string>("HttpClientName")!, options =>
+        //    {
+        //        options.BaseAddress = new Uri(rayanSection.GetValue<string>("BaseUrl")!);
+        //    });
+        //    builder.Services.AddScoped<IRayanContractsService, RayanContractService>();
+        //}
     }
 }
