@@ -93,7 +93,7 @@ message AddUserResponseRpc
 }
 
 message UserResultRpc{
-	int32 id = 1;
+	int32 userId = 1;
 	string username = 2;
 	string firstName = 3;
 	string lastName = 4;
