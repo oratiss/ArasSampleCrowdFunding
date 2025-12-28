@@ -1,79 +1,131 @@
- syntax = "proto3";
+syntax = "proto3";
 
 import "google/protobuf/wrappers.proto";
 import "google/protobuf/timestamp.proto";
 import "Protos/Common/common.proto";
+import "google/protobuf/descriptor.proto";
+
 option csharp_namespace = "Aras.SampleCrowdFundingMicroservice.SampleCrowdFunding.GrpcService";
 
 package SampleCrowdFundingServiceRpc;
 
-
 service SampleCrowdFundingServiceRpc {
+	rpc AddUserRpc(AddUserRequestRpc) returns (AddUserResponseRpc) 
+	{
+		option (http) = {
+			post: "/v1/Users"
+			body: "*"
+		};
+	};
+	
+	//rpc GetUsersRpc(GetUsersRequestRpc) returns (GetUsersResponseRpc) 
+	//{
+	//	option (http) = {
+	//		get: "/v1/Users"
+	//	};
+	//};
+	
+	rpc GetUserByIdRpc(GetUserByIdRequestRpc) returns(GetUserByIdResponseRpc) 
+	{
+		option (http) = {
+			get: "/v1/Users/{User_id}"
+		};
+	};
+}
 
-	rpc AddCategoryRpc(AddCategoryRequestRpc) returns (AddCategoryResponseRpc);
-	rpc GetCategoriesRpc(GetCategoriesRequestRpc) returns (GetCategoriesResponseRpc);
-	rpc GetCategoryByIdRpc(GetCategoryByIdRequestRpc) returns(GetCategoryByIdResponseRpc);
+message Http {
+  repeated HttpRule rules = 1;
+  bool fully_decode_reserved_expansion = 2;
+}
+
+message HttpRule {
+  string selector = 1;
+
+  oneof pattern {
+    string get = 2;
+    string put = 3;
+    string post = 4;
+    string delete = 5;
+    string patch = 6;
+    CustomHttpPattern custom = 8;
+  }
+
+  string body = 7;
+  string response_body = 12;
+  repeated HttpRule additional_bindings = 11;
+}
+
+message CustomHttpPattern {
+  string kind = 1;
+  string path = 2;
+}
+
+extend google.protobuf.MethodOptions {
+  // See `HttpRule`.
+  HttpRule http = 72295728;
 }
 
 message DecimalValue {
-
     // Whole units part of the amount
     int64 units = 1;
-
     // Nano units of the amount (10^-9)
     // Must be same sign as units
     sfixed32 nanos = 2;
 }
 
-
-
-//========= Category ====================
-
-message AddCategoryRequestRpc{
-	string name = 1;
-	google.protobuf.Int64Value parentId = 2;
-	google.protobuf.Int64Value modifierUserId = 3;
-	int64 creatorUserId = 4;
+//========= User ====================
+message AddUserRequestRpc{
+	string username = 1;
+	string firstName=2;
+	string lastName=3;
+	google.protobuf.StringValue email = 4;
+	google.protobuf.StringValue mobileNumber = 5;
+	string password = 6;
+	google.protobuf.Int64Value modifierUserId = 7;
+	int64 creatorUserId = 8;
 }
 
-message AddCategoryResponseRpc{
+message AddUserResponseRpc
+{
 	int64 responseStatus = 1;
 	repeated string errors = 2;
-	CategoryResultRpc result = 3;
+	UserResultRpc result = 3;
 }
 
-message CategoryResultRpc{
-	int64 id = 1;
-	google.protobuf.StringValue name = 2;
-	google.protobuf.Int64Value parentId = 3;
-	google.protobuf.Int64Value modifierUserId = 4;
-	int64 creatorUserId = 5;
-	//repeated AttributeResultRpc attributes = 6;
-	bool isDefault = 7;
-	google.protobuf.Int64Value prizeId = 8;
-	google.protobuf.Int64Value categoryId = 9;
+message UserResultRpc{
+	int32 id = 1;
+	string username = 2;
+	string firstName = 3;
+	string lastName = 4;
+	google.protobuf.StringValue email = 5;
+	google.protobuf.StringValue mobileNumber = 6;
+	google.protobuf.Int64Value modifierUserId = 7;
+	int64 creatorUserId = 8;
 }
 
-message GetCategoriesRequestRpc{
+message GetUsersRequestRpc{
     int32 pageSize = 1;
     int32 pageIndex = 2;
     google.protobuf.StringValue orderBy = 3;
     google.protobuf.Int32Value sortOrder = 4;
 }
 
-message GetCategoryByIdRequestRpc{
-	int64 categoryId = 1;
+message GetUserByIdRequestRpc{
+	int64 User_id = 1;  // Changed from UserId to User_id for URL binding
 }
-message GetCategoriesResponseRpc{
+
+message GetUsersResponseRpc{
 	int64 responseStatus = 1;
 	repeated string errors = 2;
-	repeated CategoryResultRpc result = 3;
+	repeated UserResultRpc result = 3;
 	Common.ResponseMetaDataRpc metaData = 4;
 }
-message GetCategoryByIdResponseRpc
+
+message GetUserByIdResponseRpc
 {
 	int64 responseStatus = 1;
 	repeated string errors = 2;
-	CategoryResultRpc result = 3;
+	UserResultRpc result = 3;
 }
-//========= End of Category ====================
+//========= End of User ====================
+

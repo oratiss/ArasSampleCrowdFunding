@@ -5,8 +5,8 @@ namespace Aras.SampleCrowdFunding.Application.Services
 {
     public class DiscountImporterToDbService : IDiscountImporterToDbService
     {
-        private readonly ICustomerClubUnitOfWork _unitOfWork;
-        public DiscountImporterToDbService(ICustomerClubUnitOfWork unitOfWork)
+        private readonly ICrowdFundingUnitOfWork _unitOfWork;
+        public DiscountImporterToDbService(ICrowdFundingUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
