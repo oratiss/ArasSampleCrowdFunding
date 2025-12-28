@@ -22,7 +22,7 @@ namespace Aras.SampleCrowdFunding.Application.Handlers.Users.QueryHandlers
         {
             GetUserByIdQueryResponse? response;
 
-            var user = await _readableUserRepository.GetByIdAsync(request.Id);
+            var user = await _readableUserRepository.GetByIdAsync(request.UserId);
 
             if (user is null)
             {

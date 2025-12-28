@@ -39,12 +39,13 @@ namespace Aras.SampleCrowdFunding.GrpcService.Services
 
             if (queryResponse is null)
             {
-                responseRpc.Errors.Add("User(s) with given Id Not found.");
+                responseRpc.Errors.Add("User(s) with given UserId Not found.");
                 responseRpc.ResponseStatus = (int)GrpcResponseStatusEnumeration.NotFound;
             }
             else
             {
                 var result = queryResponse.Adapt<UserResultRpc>();
+                result.UserId = queryResponse.Id;
                 responseRpc.Result = result;
                 responseRpc.ResponseStatus = (int)GrpcResponseStatusEnumeration.Success;
             }
@@ -73,7 +74,7 @@ namespace Aras.SampleCrowdFunding.GrpcService.Services
         //    {
         //        responseRpc.Result.AddRange(queryResponse.ApplicationQueryResponse!.Categories.Select(x => new CategoryResultRpc
         //        {
-        //            Id = x.Id,
+        //            UserId = x.UserId,
         //            Name = x.Name,
         //            CreatorUserId = x.CreatorUserId,
         //            ModifierUserId = x.ModifierUserId,

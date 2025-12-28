@@ -55,7 +55,7 @@ namespace Aras.SampleCrowdFunding.Application.Handlers.Users.CommandHandlers
                 //create write entity and save it
                 var writableUser = domainUser.Adapt<WritableUser>();
                 (writableUser.HashedPassword, writableUser.RandomSalt) = StringHashProvider.HashPassword(command.Password);
-                //Todo: write current creator Id and ModifierId from token or Request.
+                //Todo: write current creator UserId and ModifierId from token or Request.
                 writableUser.CreateDate = DateTime.UtcNow;
                 writableUser.ModifiedDate = DateTime.UtcNow;
 
