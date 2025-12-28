@@ -11,7 +11,7 @@ public class UserRoleMapping() : EfMapping<WritableUserRole>("UserRoles", "USR")
     {
         base.Configure(builder);
 
-        builder.ToTable("Users", "USR"); //should be checked is necessary or not -  constructor has it already!
+        builder.ToTable("UserRoles", "USR"); //should be checked is necessary or not -  constructor has it already!
 
         builder.HasKey(x => x.Id);
         builder.Property(e => e.Id).UseIdentityColumn(1001, 1);

@@ -1,8 +1,6 @@
-﻿using Aras.SampleCrowdFunding.Application.Models.Users.CommandAndQueryResponses;
-using Aras.SampleCrowdFunding.Application.Models.Users.CommandsAndQueries;
+﻿using Aras.SampleCrowdFunding.Application.Models.Users.CommandsAndQueries;
 using Aras.SampleCrowdFundingMicroservice.SampleCrowdFunding.GrpcService;
 using Atisaz.Grpc.Utilities;
-using Common;
 using Grpc.Core;
 using Mapster;
 using MediatR;
@@ -54,6 +52,7 @@ namespace Aras.SampleCrowdFunding.GrpcService.Services
             return responseRpc;
         }
 
+        #region comment
         //public override async Task<GetCategoriesResponseRpc> GetCategoriesRpc(GetCategoriesRequestRpc request, ServerCallContext context)
         //{
         //    GetCategoriesResponseRpc? responseRpc = new() { ResponseStatus = (int)GrpcResponseStatusEnumeration.InternalServiceError };
@@ -86,7 +85,8 @@ namespace Aras.SampleCrowdFunding.GrpcService.Services
         //    }
 
         //    return responseRpc;
-        //}
+        //} 
+        #endregion
 
 
 

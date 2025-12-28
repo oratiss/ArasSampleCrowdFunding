@@ -55,9 +55,16 @@ namespace Aras.SampleCrowdFunding.Application.Handlers.Users.CommandHandlers
                 //create write entity and save it
                 var writableUser = domainUser.Adapt<WritableUser>();
                 (writableUser.HashedPassword, writableUser.RandomSalt) = StringHashProvider.HashPassword(command.Password);
+                //Todo: write current creator Id and ModifierId from token or Request.
+                writableUser.CreateDate = DateTime.UtcNow;
+                writableUser.ModifiedDate = DateTime.UtcNow;
 
                 await _crowdFundingUnitOfWork.BeginTransactionAsync();
                 await _crowdFundingUnitOfWork.WritableUserRepository.AddAsync(writableUser);
+                await _crowdFundingUnitOfWork.SaveChangesAsync();
+                writableUser.CreatorUserId = writableUser.Id;
+                writableUser.ModifierUserId = writableUser.Id;
+                _crowdFundingUnitOfWork.WritableUserRepository.Edit(writableUser);
                 await _crowdFundingUnitOfWork.SaveChangesAsync();
                 await _crowdFundingUnitOfWork.CommitTransactionAsync();
 

@@ -20,7 +20,7 @@ namespace Aras.SampleCrowdFunding.Repository.Mssql.Mappings
 
             builder.HasQueryFilter(e => !e.IsDeleted);
 
-            builder.HasMany(x => x.UserRoles).WithOne(x => x.User).HasForeignKey(x => x.UserId);
+            builder.HasMany(x => x.UserRoles).WithOne(x => x.User);
         }
     }
 }

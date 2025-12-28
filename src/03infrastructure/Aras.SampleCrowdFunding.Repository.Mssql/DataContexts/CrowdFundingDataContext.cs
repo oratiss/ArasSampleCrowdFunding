@@ -15,6 +15,8 @@ namespace Aras.SampleCrowdFunding.Repository.Mssql.DataContexts
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new UserMapping());
+            modelBuilder.ApplyConfiguration(new UserRoleMapping());
+            modelBuilder.ApplyConfiguration(new RoleMapping());
         }
 
         public new object Set<T>() where T : class
@@ -50,7 +52,7 @@ namespace Aras.SampleCrowdFunding.Repository.Mssql.DataContexts
         public CrowdFundingDataContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<CrowdFundingDataContext>();
-            optionsBuilder.UseSqlServer("Data Source=212.33.198.153,1433;Initial Catalog=CustomerClubWriteDb;user id=AppLogin;password=TehranUsa202433; Encrypt=False; Connection Timeout=120");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\SampleCrowdFunding;Database=SampleCrowdFundingDb;Trusted_Connection=True;");
 
             return new CrowdFundingDataContext(optionsBuilder.Options);
         }

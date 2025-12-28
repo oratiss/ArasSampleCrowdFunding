@@ -5,11 +5,14 @@ namespace Aras.SampleCrowdFunding.Application.Models.Users.CommandAndQueryRespon
     public class AddUserCommandResponse
     {
         public int Id { get; set; }
-        public string UserName { get; set; } = null!;
+        public string Username { get; set; } = null!;
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
         public string? Email { get; set; } = null!;
         public string? MobileNumber { get; set; } = null!;
         public IList<AddUserRoleCommandResponse>? UserRoles { get; set; }
+        public long CreatorUserId { get; set; }
+        public long? ModifierUserId { get; set; }
+
     }
 }

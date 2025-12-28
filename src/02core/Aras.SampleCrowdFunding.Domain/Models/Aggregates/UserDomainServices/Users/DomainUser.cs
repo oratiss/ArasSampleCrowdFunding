@@ -7,7 +7,7 @@ namespace Aras.SampleCrowdFunding.Domain.Models.Aggregates.UserDomainServices.Us
 {
     public class DomainUser : AggregateRoot<int>
     {
-        public string UserName { get; private set; }
+        public string Username { get; private set; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string? Email { get; private set; }
@@ -19,7 +19,7 @@ namespace Aras.SampleCrowdFunding.Domain.Models.Aggregates.UserDomainServices.Us
             IMobileValidator mobileValidator,
             IUserNameValidator userNameValidator,
             int id,
-             string userName,
+             string username,
              string firstName,
              string lastName,
              string? email,
@@ -27,17 +27,17 @@ namespace Aras.SampleCrowdFunding.Domain.Models.Aggregates.UserDomainServices.Us
              List<DomainUserRole>? domainUserRoles = null)
         {
             //business Rules
-            if (string.IsNullOrWhiteSpace(userName))
+            if (string.IsNullOrWhiteSpace(username))
                 throw new DomainException(UsernameCannotBeNullEmptyOrWhiteSpaceCode, UsernameCannotBeNullEmptyOrWhiteSpace);
-            if (userName.Length < 3 || userName.Length > 50)
+            if (username.Length < 3 || username.Length > 50)
                 throw new DomainException(UsernameCannotBeLessThan3OrMoreThan50CharsCode, UsernameCannotBeLessThan3OrMoreThan50Chars);
             if (string.IsNullOrWhiteSpace(firstName))
                 throw new DomainException(FirstNameCannotBeNullEmptyOrWhiteSpaceCode, FirstNameCannotBeNullEmptyOrWhiteSpace);
-            if (userName.Length < 3 || firstName.Length > 50)
+            if (username.Length < 3 || firstName.Length > 50)
                 throw new DomainException(FirstNameCannotBeLessThan3OrMoreThan50CharsCode, FirstNameCannotBeLessThan3OrMoreThan50Chars);
             if (string.IsNullOrWhiteSpace(lastName))
                 throw new DomainException(LastNameCannotBeNullEmptyOrWhiteSpaceCode, LastNameCannotBeNullEmptyOrWhiteSpace);
-            if (userName.Length < 3 || lastName.Length > 50)
+            if (username.Length < 3 || lastName.Length > 50)
                 throw new DomainException(LastNameCannotBeLessThan3OrMoreThan50CharsCode, LastNameCannotBeLessThan3OrMoreThan50Chars);
 
             if (!string.IsNullOrWhiteSpace(email) && !emailValidator.IsValid(email))
@@ -46,11 +46,11 @@ namespace Aras.SampleCrowdFunding.Domain.Models.Aggregates.UserDomainServices.Us
             if (!string.IsNullOrWhiteSpace(mobileNumber) && !mobileValidator.IsValid(mobileNumber))
                 throw new DomainException(MobileNumberFormatIsNotValidCode, MobileNumberFormatIsNotValid);
 
-            if (!userNameValidator.IsUnique(userName))
+            if (!userNameValidator.IsUnique(username))
                 throw new DomainException(UsernameIsNotUniqueCode, UsernameIsNotUnique);
 
             Id = id;
-            UserName = userName;
+            Username = username;
             FirstName = firstName;
             LastName = lastName;
             Email = email;

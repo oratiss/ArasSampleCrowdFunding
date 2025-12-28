@@ -5,6 +5,8 @@ using Aras.SampleCrowdFunding.Application.Models.Users.CommandAndQueryResponses;
 using Aras.SampleCrowdFunding.Application.Models.Users.CommandsAndQueries;
 using Aras.SampleCrowdFunding.Application.Repositories.IReadableRepositories.Users;
 using Aras.SampleCrowdFunding.Application.UnitOFWorks;
+using Aras.SampleCrowdFunding.DomainContract.EmailValidationProviders;
+using Aras.SampleCrowdFunding.ExternalDomainServiceProvider.EmailValidationProviders;
 using Aras.SampleCrowdFunding.Repository.Mongo.Repositories.Users;
 using Aras.SampleCrowdFunding.Repository.Mssql.DataContexts;
 using Aras.SampleCrowdFunding.Repository.Mssql.UnitOfWorks;
@@ -59,7 +61,13 @@ namespace Atisaz.CustomerClubMicroservice.GrpcService
 
             var usersCollectionName = mongoSection.GetValue<string>("UsersCollectionName");
             services.AddSingleton<IReadableUserRepository>(new ReadableUserRepository(mongoConfig!, usersCollectionName!));
+        }
 
+        public static void AddExternalDomainValidators(this IServiceCollection services)
+        {
+            services.AddScoped<IUserNameValidator, UsernameValidator>();
+            services.AddScoped<IEmailValidator, EmailValidator>();
+            services.AddScoped<IMobileValidator, MobileValidator>();
         }
 
         public static void AddApplicationCommandsAndQueries(this IServiceCollection services)

@@ -62,6 +62,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Application Services
+builder.Services.AddExternalDomainValidators();
 builder.Services.AddApplicationCommandsAndQueries();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddMemoryCache();

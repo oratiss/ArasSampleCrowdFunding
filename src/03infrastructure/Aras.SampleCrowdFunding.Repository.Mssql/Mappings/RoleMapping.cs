@@ -15,7 +15,8 @@ public class RoleMapping() : EfMapping<WritableRole>("Roles", "USR")
 
         builder.HasKey(x => x.Id);
         builder.Property(e => e.Id).UseIdentityColumn(1001, 1);
+        builder.Property(x => x.Name).HasMaxLength(100);
         builder.HasQueryFilter(e => !e.IsDeleted);
-        builder.HasMany(x => x.UserRoles).WithOne(x => x.Role).HasForeignKey(x => x.RoleId);
+        builder.HasMany(x => x.UserRoles).WithOne(x => x.Role);
     }
 }
